@@ -28,7 +28,7 @@ The main script runs on a hourly base. Execute the all.py script in a cronjob li
 Through reverse engineering I found out which codes stand for what. But the list can and will grow. There is currently too little data available. <br>
 **reDelegateRewards** = 'cmVEZWxlZ2F0ZVJld2FyZHM=' <br>
 **relayedTo** = starts with 'cmVsYXllZFR4QDdiMjI2ZTZmNmU2MzY1MjIzYTM'  <br>
-*3unDelegate** = starts with 'dW5EZWxlZ2F0ZU' <br>
+**unDelegate** = starts with 'dW5EZWxlZ2F0ZU' <br>
 **claimRewards** = 'Y2xhaW1SZXdhcmRz'  <br>
 **unBondNodes** = starts with 'dW5Cb25kTm9kZXNA'  <br>
 **withdraw** = 'd2l0aGRyYXc=' <br>
