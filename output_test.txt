@@ -1,0 +1,157 @@
+
+
+Date: 2021-05-07 12:01:01.578091
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,675,119
+No. Transactions: O:102 I:5 T:107
+No. $EGLD Transfered: O:700 I:4 T:704
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,155,362
+68 $EGLD joined the Staking Pool.
+Rewards: 4.87 claimed: 5.45 redelegated
+Unbond: 125 initiated: 175 10 days locked
+
+Date: 2021-05-07 13:01:01.397910
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,674,482
+No. Transactions: O:89 I:5 T:94
+No. $EGLD Transfered: O:730 I:93 T:823
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,156,740
+1,378 $EGLD joined the Staking Pool.
+Rewards: 4.04 claimed: 2.8 redelegated
+Unbond: 91 initiated: 266 10 days locked
+Date: 2021-05-07 14:05:26.703160
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,673,403
+No. Transactions: O:97 I:3 T:100
+No. $EGLD Transfered: O:1,065 I:4 T:1,069
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,156,573
+102 $EGLD joined the Staking Pool.
+Rewards: 6.74 claimed: 5.47 redelegated
+Unbond: 28 initiated: 294 10 days locked
+Date: 2021-05-07 15:01:02.305490
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,673,144
+No. Transactions: O:102 I:14 T:116
+No. $EGLD Transfered: O:473 I:166 T:639
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,155,621
+952 $EGLD joined the Staking Pool.
+Rewards: 17.81 claimed: 6.13 redelegated
+Unbond: 70 initiated: 364 10 days locked
+Date: 2021-05-07 16:01:02.031923
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,670,244
+No. Transactions: O:112 I:14 T:126
+No. $EGLD Transfered: O:3,008 I:109 T:3,117
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,155,582
+39 $EGLD joined the Staking Pool.
+Rewards: 7.74 claimed: 8.49 redelegated
+Unbond: 0 initiated: 364 10 days locked
+Date: 2021-05-07 17:01:01.978138
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,670,019
+No. Transactions: O:72 I:9 T:81
+No. $EGLD Transfered: O:269 I:44 T:313
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,152,482
+3,100 $EGLD joined the Staking Pool.
+Rewards: 5.31 claimed: 3.98 redelegated
+Unbond: 45 initiated: 409 10 days locked
+Date: 2021-05-07 18:01:02.160160
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,669,197
+No. Transactions: O:81 I:2 T:83
+No. $EGLD Transfered: O:826 I:4 T:830
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,152,963
+481 $EGLD joined the Staking Pool.
+Rewards: 29.22 claimed: 11.4 redelegated
+Unbond: 29 initiated: 439 10 days locked
+Date: 2021-05-07 19:01:01.872266
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,668,597
+No. Transactions: O:80 I:6 T:86
+No. $EGLD Transfered: O:614 I:13 T:627
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,150,248
+2,715 $EGLD joined the Staking Pool.
+Rewards: 44.24 claimed: 6.61 redelegated
+Unbond: 0 initiated: 439 10 days locked
+Date: 2021-05-07 20:01:02.567629
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,667,236
+No. Transactions: O:86 I:11 T:97
+No. $EGLD Transfered: O:1,988 I:626 T:2,614
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,150,675
+427 $EGLD joined the Staking Pool.
+Rewards: 10.83 claimed: 4.59 redelegated
+Unbond: 18 initiated: 457 10 days locked
+Date: 2021-05-07 21:01:02.067294
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,666,709
+No. Transactions: O:71 I:4 T:75
+No. $EGLD Transfered: O:533 I:7 T:540
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,152,119
+1,444 $EGLD joined the Staking Pool.
+Rewards: 8.84 claimed: 11.66 redelegated
+Unbond: 32 initiated: 489 10 days locked
+Date: 2021-05-07 22:01:01.932694
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,665,956
+No. Transactions: O:73 I:10 T:83
+No. $EGLD Transfered: O:953 I:200 T:1,153
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,152,634
+515 $EGLD joined the Staking Pool.
+Rewards: 238.51 claimed: 4.51 redelegated
+Unbond: 10 initiated: 499 10 days locked
+Date: 2021-05-07 23:01:01.845431
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,667,183
+No. Transactions: O:48 I:5 T:53
+No. $EGLD Transfered: O:516 I:1,743 T:2,259
+Trend: Inflow
+Staking Pool:
+No. $EGLD total staked: 11,153,197
+563 $EGLD joined the Staking Pool.
+Rewards: 18.54 claimed: 6.23 redelegated
+Unbond: 20 initiated: 519 10 days locked
+Date: 2021-05-08 00:01:01.314058
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,666,958
+No. Transactions: O:62 I:1 T:63
+No. $EGLD Transfered: O:224 I:0 T:224
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,153,803
+606 $EGLD joined the Staking Pool.
+Rewards: 7.97 claimed: 2.61 redelegated
+Unbond: 92 initiated: 611 10 days locked
+Date: 2021-05-08 00:14:11.365629
+Timeframe: 1h
+No. $EGLD on Exchanges: 2,666,952
+No. Transactions: O:51 I:3 T:54
+No. $EGLD Transfered: O:136 I:12 T:148
+Trend: Outflow
+Staking Pool:
+No. $EGLD total staked: 11,153,807
+4 $EGLD joined the Staking Pool.
+Rewards: 6.14 claimed: 2.28 redelegated
+Unbond: 0 initiated: 611 10 days locked
