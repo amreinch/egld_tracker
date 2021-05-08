@@ -138,18 +138,20 @@ def transactions(range_start,range_end):
             if json['scResults']:
                 a = (len(json['scResults']))
                 ## Check if it has status @ok@ then take second val as val1
-                if a ==  2 and json['scResults'][0]['data'] == "QDZmNmI=":
+                if a ==  2 and json['scResults'][0]['data'] == "QDZmNmI=" and json['scResults'][0]['data'] != "ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=":
                     ##Check if its unbond and write in val1
                     value1 = json['scResults'][1]['value']
-#                    if json['scResults'][0]['data'] == "ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=":
- #                       value1 = json['scResults'][0]['value']
-#                    else:
 
                 ## Check if it has status @ok@ then take first val as val1
-                elif a == 2 and json['scResults'][1]['data'] == "QDZmNmI=":
+                elif a == 2 and json['scResults'][1]['data'] == "QDZmNmI=" and json['scResults'][0]['data'] != "ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=":
                     ##Check if its unbond and write in val1
                     value1 = json['scResults'][0]['value']
-                        value1 = json['scResults'][0]['value']
+                        ## Check if data delegation stake unbound
+                elif a == 2 and json['scResults'][0]['data'] == "ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=":
+                    value1 = json['scResults'][0]['value']
+                elif a == 2 and json['scResults'][1]['data'] == "ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=":
+                    value1 = json['scResults'][1]['value']
+
                 if value1 != 0 and value1 != "0":
                     values = (tx, ts, dat, st, value1, value2)
 
@@ -334,7 +336,7 @@ def unbond(timestamp_1h1m, timestamp_1m):
  #       elif len(record[1]) == 20:
  #           counter = counter + (int(record[1]))
 
-        counterC = round(counter / 1000000000000000000)
+    counterC = round((counter / 1000000000000000000),2)
 
     return counterC
 
