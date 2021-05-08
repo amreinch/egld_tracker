@@ -114,33 +114,42 @@ def stakestatspush(stakewallet):
 
     return sc_balances, true_staked_val
 
-def transactions():
+def transactions(range_start,range_end):
     import json
-    r = requests.get('https://internal-api.elrond.com/transactions?from=0&size=50&fields=txHash,receiver,receiverShard,sender,senderShard,status,timestamp,value', headers=authentication.headers)
+    #execute query 5 time
+    r = requests.get('https://internal-api.elrond.com/transactions?from=' + range_start + '&size=' + range_end + '&fields=txHash,receiver,receiverShard,sender,senderShard,status,timestamp,value', headers=authentication.headers, timeout=100)
+#        print(r.content)
+#        print(r.headers)
     json_object = json.loads(r.content)
-    #print(r.content)
+#        print(json_object)
+        #print(r.content)
 
+#        r = requests.get('https://internal-api.elrond.com/transactions?from' + range_start + '=&size=' + range_end + 'fields=txHash,receiver,receiverShard,sender,senderShard,status,timestamp,value', headers=authentication.headers)
     query = "INSERT INTO transactions (txHash, timestamp, scaction, status, value1, value2) VALUES (%s, %s, %s, %s, %s, %s)"
-
     for json in json_object:
         tx = json['txHash']
         ts = json['timestamp']
         val = json['value']
         st = json['status']
-
+        value2 = 0
         try:
             dat = json['data']
             if json['scResults']:
-                value1 = json['scResults'][0]['value']
-                value2 = json['scResults'][1]['value']
-                values = (tx, ts, dat, st, value1, value2)
-            # print(values)
+                a = (len(json['scResults']))
+                if a ==  2 and json['scResults'][0]['data'] == "QDZmNmI=": 
+                    value1 = json['scResults'][1]['value']
+                elif a == 2 and json['scResults'][1]['data'] == "QDZmNmI=":
+                    value1 = json['scResults'][0]['value']
+                    if value1 != 0 and value1 != "0":
+                        values = (tx, ts, dat, st, value1, value2)
+
+                # print(values)
                 if st == "success":
                     cursor.execute(query, values)
                     db.db.commit()
-                    print(cursor.rowcount, "record inserted")
-        except:
-            print("NOTING")
+                        #print(cursor.rowcount, "record inserted")
+#            except Exception as e: print(e)
+        except Exception as e: pass
 
 def delegate(timestamp_1h1m, timestamp_1m):
 
@@ -283,10 +292,10 @@ def unbond10(timestamp_10d, timestamp_1m):
     ## Showing the data
     for record in records:
        # counter = counter + (int(record[0]))
-        if len(record[0]) == 20:
-            counter = counter + (int(record[0]))
-        elif len(record[1]) == 20:
-            counter = counter + (int(record[1]))
+#        if len(record[0]) == 20:
+        counter = counter + (int(record[0]))
+ #       elif len(record[1]) == 20:
+  #          counter = counter + (int(record[1]))
 
         counterC = round(counter / 1000000000000000000)
 
@@ -311,12 +320,70 @@ def unbond(timestamp_1h1m, timestamp_1m):
     ## Showing the data
     for record in records:
        # counter = counter + (int(record[0]))
-        if len(record[0]) == 20:
-            counter = counter + (int(record[0]))
-        elif len(record[1]) == 20:
-            counter = counter + (int(record[1]))
+#        if len(record[0]) == 20:
+        counter = counter + (int(record[0]))
+ #       elif len(record[1]) == 20:
+ #           counter = counter + (int(record[1]))
 
         counterC = round(counter / 1000000000000000000)
+
+    return counterC
+
+
+def redelegateRewards(timestamp_1h1m, timestamp_1m):
+    ############
+    ## CODES:
+    ## redelegate:  cmVEZWxlZ2F0ZVJld2FyZHM=
+    ## last 1 days
+
+    counter = 0
+    counterC = 0
+
+    query = f"SELECT value1,value2 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'cmVEZWxlZ2F0ZVJld2FyZHM=' AND `status` LIKE 'success' "
+    cursor.execute(query)
+    print(query)
+
+    ## fetching all records from the 'cursor' object
+    records = cursor.fetchall()
+
+    ## Showing the data
+    for record in records:
+       # counter = counter + (int(record[0]))
+#        if len(record[0]) == 17:
+        counter = counter + (int(record[0]))
+#        elif len(record[1]) == 17:
+#            counter = counter + (int(record[1]))
+
+        counterC = round((counter / 1000000000000000000),2)
+
+    return counterC
+
+
+def claimRewards(timestamp_1h1m, timestamp_1m):
+    ############
+    ## CODES:
+    ## redelegate:  cmVEZWxlZ2F0ZVJld2FyZHM=
+    ## last 1 days
+
+    counter = 0
+    counterC = 0
+
+    query = f"SELECT value1 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'Y2xhaW1SZXdhcmRz' AND `status` LIKE 'success' "
+    cursor.execute(query)
+    print(query)
+
+    ## fetching all records from the 'cursor' object
+    records = cursor.fetchall()
+
+    ## Showing the data
+    for record in records:
+       # counter = counter + (int(record[0]))
+#        if len(record[0]) == 16:
+        counter = counter + (int(record[0]))
+#       elif len(record[1]) == 16:
+#           counter = counter + (int(record[1]))
+
+        counterC = round((counter / 1000000000000000000),2)
 
     return counterC
 

@@ -42,8 +42,8 @@ dif_stake = abs(int(old_stake) - int(cur_stake[1]))
 
 unbonded = functions.unbond(timestamp_1h1m, timestamp_1m)
 unbonded10 = functions.unbond10(timestamp_10d, timestamp_1m)
-claimed = functions.fixscvalues(timestamp_1h1m, timestamp_1m, "Y2xhaW1SZXdhcmRz")
-redelegated = functions.fixscvalues(timestamp_1h1m, timestamp_1m, "cmVEZWxlZ2F0ZVJld2FyZHM=")
+claimed = functions.claimRewards(timestamp_1h1m, timestamp_1m)
+redelegated = functions.redelegateRewards(timestamp_1h1m, timestamp_1m)
 
 
 
