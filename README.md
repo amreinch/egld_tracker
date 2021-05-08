@@ -35,6 +35,7 @@ Through reverse engineering I found out which codes stand for what. But the list
 **delegate** = 'ZGVsZWdhdGU=' <br>
 **unBond** = 'dW5Cb25k' <br>
 **unBondTokens** = 'dW5Cb25kVG9rZW5z' <br>
+**delegation stake unbound"** = ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=
 **unStakeNodes** = starts with 'dW5TdGFrZU5vZGVzQD' <br>
 **unStake** = unconfirmed dW5TdGFrZUAwODQzMzdjZjA3Mzc2YWExNTVkNWIxYjYxZTdmMzNmZWFkNDI1NzE5YzFiMzhiZmFkNzlkMjE2ODY5NTY1YjEwMjk5YmYwMmY3M2U2Yzk1MDQ2YmUyNzMyYWQ0NzQwMTA2NTlmMmIyNjEyZTM5NTNmMzExYTMxMzdlN2I4NzMxZDg5Y2UwMDFhMjQ2ZTc4NzkyMTQ1Yzk5NzA5YThlZmQyM2I1MmViMzJlYzM4OGE3YjQ0ZTI4OTE5NjI0NTJkODQ= or starts with dW5T <br>
 

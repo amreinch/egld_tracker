@@ -128,6 +128,7 @@ def transactions(range_start,range_end):
     query = "INSERT INTO transactions (txHash, timestamp, scaction, status, value1, value2) VALUES (%s, %s, %s, %s, %s, %s)"
     for json in json_object:
         tx = json['txHash']
+#        print(tx)
         ts = json['timestamp']
         val = json['value']
         st = json['status']
@@ -136,12 +137,21 @@ def transactions(range_start,range_end):
             dat = json['data']
             if json['scResults']:
                 a = (len(json['scResults']))
-                if a ==  2 and json['scResults'][0]['data'] == "QDZmNmI=": 
+                ## Check if it has status @ok@ then take second val as val1
+                if a ==  2 and json['scResults'][0]['data'] == "QDZmNmI=":
+                    ##Check if its unbond and write in val1
                     value1 = json['scResults'][1]['value']
+#                    if json['scResults'][0]['data'] == "ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=":
+ #                       value1 = json['scResults'][0]['value']
+#                    else:
+
+                ## Check if it has status @ok@ then take first val as val1
                 elif a == 2 and json['scResults'][1]['data'] == "QDZmNmI=":
+                    ##Check if its unbond and write in val1
                     value1 = json['scResults'][0]['value']
-                    if value1 != 0 and value1 != "0":
-                        values = (tx, ts, dat, st, value1, value2)
+                        value1 = json['scResults'][0]['value']
+                if value1 != 0 and value1 != "0":
+                    values = (tx, ts, dat, st, value1, value2)
 
                 # print(values)
                 if st == "success":
@@ -268,7 +278,7 @@ def fixscvalues(timestamp_1h1m, timestamp_1m, code):
     for record in records:
         counter = counter + (int(record[0]))
 
-        counterC = round((counter / 1000000000000000000),2)
+    counterC = round((counter / 1000000000000000000),2)
 
     #print(counterC)
     return counterC
@@ -296,8 +306,7 @@ def unbond10(timestamp_10d, timestamp_1m):
         counter = counter + (int(record[0]))
  #       elif len(record[1]) == 20:
   #          counter = counter + (int(record[1]))
-
-        counterC = round(counter / 1000000000000000000)
+    counterC = round((counter / 1000000000000000000),2)
 
     return counterC
 
