@@ -26,17 +26,17 @@ The main script runs on a hourly base. Execute the all.py script in a cronjob li
 
 ### Smart Contract Codes
 Through reverse engineering I found out which codes stand for what. But the list can and will grow. There is currently too little data available. <br>
-reDelegateRewards = 'cmVEZWxlZ2F0ZVJld2FyZHM=' 
-relayedTo = starts with 'cmVsYXllZFR4QDdiMjI2ZTZmNmU2MzY1MjIzYTM' 
-unDelegate = starts with 'dW5EZWxlZ2F0ZU'
-claimRewards = 'Y2xhaW1SZXdhcmRz' 
-unBondNodes = starts with 'dW5Cb25kTm9kZXNA' 
-withdraw = 'd2l0aGRyYXc=' 
-delegate = 'ZGVsZWdhdGU=' 
-unBond = 'dW5Cb25k' 
-unBondTokens = 'dW5Cb25kVG9rZW5z' 
-unStakeNodes = starts with 'dW5TdGFrZU5vZGVzQD'Q 
-unStake = unconfirmed dW5TdGFrZUAwODQzMzdjZjA3Mzc2YWExNTVkNWIxYjYxZTdmMzNmZWFkNDI1NzE5YzFiMzhiZmFkNzlkMjE2ODY5NTY1YjEwMjk5YmYwMmY3M2U2Yzk1MDQ2YmUyNzMyYWQ0NzQwMTA2NTlmMmIyNjEyZTM5NTNmMzExYTMxMzdlN2I4NzMxZDg5Y2UwMDFhMjQ2ZTc4NzkyMTQ1Yzk5NzA5YThlZmQyM2I1MmViMzJlYzM4OGE3YjQ0ZTI4OTE5NjI0NTJkODQ= or starts with dW5T
+reDelegateRewards = 'cmVEZWxlZ2F0ZVJld2FyZHM=' <br>
+relayedTo = starts with 'cmVsYXllZFR4QDdiMjI2ZTZmNmU2MzY1MjIzYTM'  <br>
+unDelegate = starts with 'dW5EZWxlZ2F0ZU' <br>
+claimRewards = 'Y2xhaW1SZXdhcmRz'  <br>
+unBondNodes = starts with 'dW5Cb25kTm9kZXNA'  <br>
+withdraw = 'd2l0aGRyYXc=' <br>
+delegate = 'ZGVsZWdhdGU=' <br>
+unBond = 'dW5Cb25k' <br>
+unBondTokens = 'dW5Cb25kVG9rZW5z' <br>
+unStakeNodes = starts with 'dW5TdGFrZU5vZGVzQD' <br>
+unStake = unconfirmed dW5TdGFrZUAwODQzMzdjZjA3Mzc2YWExNTVkNWIxYjYxZTdmMzNmZWFkNDI1NzE5YzFiMzhiZmFkNzlkMjE2ODY5NTY1YjEwMjk5YmYwMmY3M2U2Yzk1MDQ2YmUyNzMyYWQ0NzQwMTA2NTlmMmIyNjEyZTM5NTNmMzExYTMxMzdlN2I4NzMxZDg5Y2UwMDFhMjQ2ZTc4NzkyMTQ1Yzk5NzA5YThlZmQyM2I1MmViMzJlYzM4OGE3YjQ0ZTI4OTE5NjI0NTJkODQ= or starts with dW5T <br>
 
 **DB Query to check if new codes appeared**
 
