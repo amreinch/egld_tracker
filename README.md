@@ -25,7 +25,7 @@ The main script runs on a hourly base. Execute the all.py script in a cronjob li
 ```
 
 ### Smart Contract Codes
-Through reverse engineering I found out which codes stand for what. But the list can and will grow. There is currently too little data available.
+Through reverse engineering I found out which codes stand for what. But the list can and will grow. There is currently too little data available. <br>
 reDelegateRewards = 'cmVEZWxlZ2F0ZVJld2FyZHM=' 
 relayedTo = starts with 'cmVsYXllZFR4QDdiMjI2ZTZmNmU2MzY1MjIzYTM' 
 unDelegate = starts with 'dW5EZWxlZ2F0ZU'
