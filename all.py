@@ -38,10 +38,10 @@ old_stake = functions.staketotal()
 cur_stake = functions.stakestatspush(stakewallet)
 dif_stake = abs(int(old_stake) - int(cur_stake[1]))
 
-#lala = functions.transactions()
+lala = functions.transactionCrawler()
 
 unbonded = functions.unbond(timestamp_1h1m, timestamp_1m)
-unbonded10 = functions.unbond10(timestamp_10d, timestamp_1m)
+unbonded10 = functions.unbond(timestamp_10d, timestamp_1m)
 claimed = functions.claimRewards(timestamp_1h1m, timestamp_1m)
 redelegated = functions.redelegateRewards(timestamp_1h1m, timestamp_1m)
 
@@ -102,36 +102,3 @@ Rewards: {claimed} claimed: {redelegated} redelegated
 Unbond: {unbonded} initiated: {unbonded10} 10 days locked""")
 
 file1.close()
-
-
-
-#for i in range(len(stakewallet)):
-#    print(stakewallet[i])
-#    sc = int(functions.stakesc(stakewallet[i]))
-#    sc_balance = sc_balance + sc
-#sc_balances = round(sc_balance / 1000000000000000000)
-
-#print(sc_balances)
-
-#sv = functions.stakevalue()
-#true_staked_val = round(sv)
-
-
-#query = "SELECT staketotal FROM stakes ORDER BY id DESC LIMIT 1"
-#cursor.execute(query)
-# get all records
-#records = cursor.fetchone()
-#print("Old staketotal:", records[0])
-
-
-
-
-
-
-#cursor = db.db.cursor()
-#query = "INSERT INTO stakes (timestamp, sctotal, staketotal) VALUES (%s, %s, %s)"
-#values = (timestamp, sc_balances, true_staked_val)
-#cursor.execute(query, values)
-#db.db.commit()
-
-#functions.stakestatspush(stakewallet)

@@ -28,6 +28,16 @@ auth.set_access_token(cred.twitter_access_token,
 
 api = tweepy.API(auth)
 
+
+def transactionCrawler():
+    tra_start = "0"
+    tra_size = "2000"
+    
+    for i in range(5):
+        transactions(tra_start,tra_size)
+        tra_start = int(tra_start) + int(tra_size)
+        tra_start = str(tra_start)
+
 def exchanges(wallet, timestamp_1h):
     #TRANSACTIONS
     r = requests.get('https://internal-api.elrond.com/transactions?size=2000&sender=' + wallet + '&receiver=' + wallet + '&condition=should&fields=txHash,receiver,receiverShard,sender,senderShard,status,timestamp,value', headers=authentication.headers)
@@ -58,8 +68,8 @@ def exchanges(wallet, timestamp_1h):
                 else:
                     inflow_tra_count = inflow_tra_count + 1
                     inflow_egld_count =  (inflow_egld_count + values)
-        except:
-            message = "no data"
+        except Exception as e: pass
+
     return transaction_count, outflow_tra_count, outflow_egld_count, inflow_tra_count, inflow_egld_count, balance
     
 
@@ -77,7 +87,6 @@ def stakesc(wallet):
     balance = (int((json_object_wv["balance"])))
     return balance
 
-
 def stakevalue():
     rs = requests.get('https://internal-api.elrond.com/economics', headers=authentication.headers)
     json_object_rs = json.loads(rs.content)
@@ -88,7 +97,6 @@ def staketotal():
     record = 0
     query = "SELECT staketotal FROM stakes ORDER BY id DESC LIMIT 1"
     cursor.execute(query)
-    # get all records
     record = cursor.fetchone()
     
     return record[0]
@@ -117,312 +125,208 @@ def stakestatspush(stakewallet):
 def transactions(range_start,range_end):
     import json
     #execute query 5 time
-    r = requests.get('https://internal-api.elrond.com/transactions?from=' + range_start + '&size=' + range_end + '&fields=txHash,receiver,receiverShard,sender,senderShard,status,timestamp,value', headers=authentication.headers, timeout=100)
-#        print(r.content)
-#        print(r.headers)
+    r = requests.get('https://internal-api.elrond.com/transactions?from=' + range_start + '&size=' + range_end + '&fields=txHash,receiver,receiverShard,sender,senderShard,status,timestamp,value', headers=authentication.headers)
+#    r = requests.get('https://internal-api.elrond.com/transactions/b6d6260553e16d5cb25fddcce3f186cf4170d9a2eb20180c87bdbf4b634ecde4', headers=authentication.headers, timeout=100)
     json_object = json.loads(r.content)
-#        print(json_object)
-        #print(r.content)
+    unbond_query = "INSERT INTO unBond(txHash, miniBlockHash, nonce, round, value, receiver, sender, receiverShard, senderShard, gasPrice, gasLimit, gasUsed, fee, data, signature, timestamp, status, scResults0relayedValue, scResults0prevTxHash, scResults0gasLimit, scResults0originalTxHash, scResults0receiver, scResults0data, scResults0sender, scResults0nonce, scResults0value, scResults0hash, scResults0callType, scResults0gasPrice, scResults1relayedValue, scResults1prevTxHash, scResults1gasLimit, scResults1originalTxHash, scResults1receiver, scResults1data, scResults1sender, scResults1nonce, scResults1value, scResults1hash, scResults1callType, scResults1gasPrice) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    claim_query = "INSERT INTO claimRewards(txHash, miniBlockHash, nonce, round, value, receiver, sender, receiverShard, senderShard, gasPrice, gasLimit, gasUsed, fee, data, signature, timestamp, status, scResults0relayedValue, scResults0prevTxHash, scResults0gasLimit, scResults0originalTxHash, scResults0receiver, scResults0data, scResults0sender, scResults0nonce, scResults0value, scResults0hash, scResults0callType, scResults0gasPrice, scResults1relayedValue, scResults1prevTxHash, scResults1gasLimit, scResults1originalTxHash, scResults1receiver, scResults1data, scResults1sender, scResults1nonce, scResults1value, scResults1hash, scResults1callType, scResults1gasPrice) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    redelegate_query = "INSERT INTO redelegateRewards(txHash, miniBlockHash, nonce, round, value, receiver, sender, receiverShard, senderShard, gasPrice, gasLimit, gasUsed, fee, data, signature, timestamp, status, scResults0relayedValue, scResults0prevTxHash, scResults0gasLimit, scResults0originalTxHash, scResults0receiver, scResults0data, scResults0sender, scResults0nonce, scResults0value, scResults0hash, scResults0callType, scResults0gasPrice, scResults1relayedValue, scResults1prevTxHash, scResults1gasLimit, scResults1originalTxHash, scResults1receiver, scResults1data, scResults1sender, scResults1nonce, scResults1value, scResults1hash, scResults1callType, scResults1gasPrice) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
-#        r = requests.get('https://internal-api.elrond.com/transactions?from' + range_start + '=&size=' + range_end + 'fields=txHash,receiver,receiverShard,sender,senderShard,status,timestamp,value', headers=authentication.headers)
-    query = "INSERT INTO transactions (txHash, timestamp, scaction, status, value1, value2) VALUES (%s, %s, %s, %s, %s, %s)"
     for json in json_object:
-        tx = json['txHash']
-#        print(tx)
-        ts = json['timestamp']
-        val = json['value']
-        st = json['status']
-        value2 = 0
         try:
-            dat = json['data']
-            if json['scResults']:
-                a = (len(json['scResults']))
-                ## Check if it has status @ok@ then take second val as val1
-                if a ==  2 and json['scResults'][0]['data'] == "QDZmNmI=" and json['scResults'][0]['data'] != "ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=":
-                    ##Check if its unbond and write in val1
-                    value1 = json['scResults'][1]['value']
+            if json['data'] == "dW5Cb25k":
+                m1 = json['txHash']
+                m2 = json['miniBlockHash']
+                m3 = json['nonce']
+                m4 = json['round']
+                m5 = json['value']
+                m6 = json['receiver']
+                m7 = json['sender']
+                m8 = json['receiverShard']
+                m9 = json['senderShard']
+                m10 = json['gasPrice']
+                m11 = json['gasLimit']
+                m12 = json['gasUsed']
+                m13 = json['fee']
+                m14 = json['data']
+                m15 = json['signature']
+                m16 = json['timestamp']
+                m17 = json['status']
+                m18 = json['scResults'][0]['relayedValue']
+                m19 = json['scResults'][0]['prevTxHash']
+                m20 = json['scResults'][0]['gasLimit']
+                m21 = json['scResults'][0]['originalTxHash']
+                m22 = json['scResults'][0]['receiver']
+                m23 = json['scResults'][0]['data']
+                m24 = json['scResults'][0]['sender']
+                m25 = json['scResults'][0]['nonce']
+                m26 = json['scResults'][0]['value']
+                m27 = json['scResults'][0]['hash']
+                m28 = json['scResults'][0]['callType']
+                m29 = json['scResults'][0]['gasPrice']
+                m30 = json['scResults'][1]['relayedValue']
+                m31 = json['scResults'][1]['prevTxHash']
+                m32 = json['scResults'][1]['gasLimit']
+                m33 = json['scResults'][1]['originalTxHash']
+                m34 = json['scResults'][1]['receiver']
+                m35 = json['scResults'][1]['data']
+                m36 = json['scResults'][1]['sender']
+                m37 = json['scResults'][1]['nonce']
+                m38 = json['scResults'][1]['value']
+                m39 = json['scResults'][1]['hash']
+                m40 = json['scResults'][1]['callType']
+                m41 = json['scResults'][1]['gasPrice']
 
-                ## Check if it has status @ok@ then take first val as val1
-                elif a == 2 and json['scResults'][1]['data'] == "QDZmNmI=" and json['scResults'][0]['data'] != "ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=":
-                    ##Check if its unbond and write in val1
-                    value1 = json['scResults'][0]['value']
-                        ## Check if data delegation stake unbound
-                elif a == 2 and json['scResults'][0]['data'] == "ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=":
-                    value1 = json['scResults'][0]['value']
-                elif a == 2 and json['scResults'][1]['data'] == "ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=":
-                    value1 = json['scResults'][1]['value']
+                values = (m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28, m29, m30, m31, m32, m33, m34, m35, m36, m37, m38, m39, m40, m41)
+                cursor.execute(unbond_query, values)
+                db.db.commit()
 
-                if value1 != 0 and value1 != "0":
-                    values = (tx, ts, dat, st, value1, value2)
+            elif json['data'] == "Y2xhaW1SZXdhcmRz":
+                m1 = json['txHash']
+                m2 = json['miniBlockHash']
+                m3 = json['nonce']
+                m4 = json['round']
+                m5 = json['value']
+                m6 = json['receiver']
+                m7 = json['sender']
+                m8 = json['receiverShard']
+                m9 = json['senderShard']
+                m10 = json['gasPrice']
+                m11 = json['gasLimit']
+                m12 = json['gasUsed']
+                m13 = json['fee']
+                m14 = json['data']
+                m15 = json['signature']
+                m16 = json['timestamp']
+                m17 = json['status']
+                m18 = json['scResults'][0]['relayedValue']
+                m19 = json['scResults'][0]['prevTxHash']
+                m20 = json['scResults'][0]['gasLimit']
+                m21 = json['scResults'][0]['originalTxHash']
+                m22 = json['scResults'][0]['receiver']
+                try:
+                    m23 = json['scResults'][0]['data']
+                except:
+                    m23 = 0
+                m24 = json['scResults'][0]['sender']
+                m25 = json['scResults'][0]['nonce']
+                m26 = json['scResults'][0]['value']
+                m27 = json['scResults'][0]['hash']
+                m28 = json['scResults'][0]['callType']
+                m29 = json['scResults'][0]['gasPrice']
+                m30 = json['scResults'][1]['relayedValue']
+                m31 = json['scResults'][1]['prevTxHash']
+                m32 = json['scResults'][1]['gasLimit']
+                m33 = json['scResults'][1]['originalTxHash']
+                m34 = json['scResults'][1]['receiver']
+                try:
+                    m35 = json['scResults'][1]['data']
+                except:
+                    m35 = 0
+                m36 = json['scResults'][1]['sender']
+                c37 = json['scResults'][1]['nonce']
+                m38 = json['scResults'][1]['value']
+                m39 = json['scResults'][1]['hash']
+                m40 = json['scResults'][1]['callType']
+                m41 = json['scResults'][1]['gasPrice']
 
-                # print(values)
-                if st == "success":
-                    cursor.execute(query, values)
-                    db.db.commit()
-                        #print(cursor.rowcount, "record inserted")
-#            except Exception as e: print(e)
+                values1 = (m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28, m29, m30, m31, m32, m33, m34, m35, m36, m37, m38, m39, m40, m41)
+                cursor.execute(claim_query, values1)
+
+                db.db.commit()
+            elif json['data'] == "cmVEZWxlZ2F0ZVJld2FyZHM=":
+                m1 = json['txHash']
+                m2 = json['miniBlockHash']
+                m3 = json['nonce']
+                m4 = json['round']
+                m5 = json['value']
+                m6 = json['receiver']
+                m7 = json['sender']
+                m8 = json['receiverShard']
+                m9 = json['senderShard']
+                m10 = json['gasPrice']
+                m11 = json['gasLimit']
+                m12 = json['gasUsed']
+                m13 = json['fee']
+                m14 = json['data']
+                m15 = json['signature']
+                m16 = json['timestamp']
+                m17 = json['status']
+                m18 = json['scResults'][0]['relayedValue']
+                m19 = json['scResults'][0]['prevTxHash']
+                m20 = json['scResults'][0]['gasLimit']
+                m21 = json['scResults'][0]['originalTxHash']
+                m22 = json['scResults'][0]['receiver']
+                try:
+                    m23 = json['scResults'][0]['data']
+                except:
+                    m23 = 0
+                print(m23)
+                m24 = json['scResults'][0]['sender']
+                m25 = json['scResults'][0]['nonce']
+                m26 = json['scResults'][0]['value']
+                m27 = json['scResults'][0]['hash']
+                m28 = json['scResults'][0]['callType']
+                m29 = json['scResults'][0]['gasPrice']
+                m30 = json['scResults'][1]['relayedValue']
+                m31 = json['scResults'][1]['prevTxHash']
+                m32 = json['scResults'][1]['gasLimit']
+                m33 = json['scResults'][1]['originalTxHash']
+                m34 = json['scResults'][1]['receiver']
+                try:
+                    m35 = json['scResults'][1]['data']
+                except:
+                    m35 = 0
+                print(m35)
+                m36 = json['scResults'][1]['sender']
+                c37 = json['scResults'][1]['nonce']
+                m38 = json['scResults'][1]['value']
+                m39 = json['scResults'][1]['hash']
+                m40 = json['scResults'][1]['callType']
+                m41 = json['scResults'][1]['gasPrice']
+
+                values1 = (m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28, m29, m30, m31, m32, m33, m34, m35, m36, m37, m38, m39, m40, m41)
+                cursor.execute(redelegate_query, values1)
+
+                db.db.commit()
+#        except Exception as e: print(e)
         except Exception as e: pass
 
-def delegate(timestamp_1h1m, timestamp_1m):
-
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'ZGVsZWdhdGU=' AND `status` LIKE 'success' "
-    cursor.execute(query)
-
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
-
-    ## Showing the data
-    for record in records:
-        counter = counter + (int(record[0]))
-
-        counterC = round(counter / 1000000000000000000)
-
-    print(counterC)
-
-def withdraw(timestamp_1h1m, timestamp_1m):
-
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'd2l0aGRyYXc=' AND `status` LIKE 'success' "
-    cursor.execute(query)
-
-    print(query)
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
-
-    ## Showing the data
-    for record in records:
-        counter = counter + (int(record[0]))
-
-        counterC = round(counter / 1000000000000000000)
-
-    print(counterC)
-
-
-def undelegate(timestamp_1h1m, timestamp_1m):
-
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'dW5EZWxlZ2F0ZU%' AND `status` LIKE 'success' "
-    cursor.execute(query)
-
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
-
-    ## Showing the data
-    for record in records:
-        counter = counter + (int(record[0]))
-
-        counterC = round(counter / 1000000000000000000)
-
-    print(counterC)
-
-def stake(timestamp_1h1m, timestamp_1m):
-
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'c3Rha2U=' AND `status` LIKE 'success' "
-    cursor.execute(query)
-
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
-
-    ## Showing the data
-    for record in records:
-        counter = counter + (int(record[0]))
-
-        counterC = round(counter / 1000000000000000000)
-
-    print(counterC)
-
-def unstake(timestamp_1h1m, timestamp_1m):
-
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'dW5TdGFrZU%' AND `status` LIKE 'success' "
-    cursor.execute(query)
-
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
-
-    ## Showing the data
-    for record in records:
-        counter = counter + (int(record[0]))
-
-        counterC = round(counter / 1000000000000000000)
-
-    print(counterC)
-
-def fixscvalues(timestamp_1h1m, timestamp_1m, code):
-    ############
-    ## CODES:
-    ## claimRewards : Y2xhaW1SZXdhcmRz
-    ## redelegateRewards: cmVEZWxlZ2F0ZVJld2FyZHM=
-    ## unbond: dW5Cb25k
-
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE '{code}' AND `status` LIKE 'success' "
-    cursor.execute(query)
-
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
-
-    ## Showing the data
-    for record in records:
-        counter = counter + (int(record[0]))
-
-    counterC = round((counter / 1000000000000000000),2)
-
-    #print(counterC)
-    return counterC
-
-def unbond10(timestamp_10d, timestamp_1m):
-    ############
-    ## CODES:
-    ## unbond: dW5Cb25k
-    ## last 1 days
-
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1,value2 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_10d} AND {timestamp_1m} AND `scaction` LIKE 'dW5Cb25k' AND `status` LIKE 'success' "
-    cursor.execute(query)
-    print(query)
-
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
-
-    ## Showing the data
-    for record in records:
-       # counter = counter + (int(record[0]))
-#        if len(record[0]) == 20:
-        counter = counter + (int(record[0]))
- #       elif len(record[1]) == 20:
-  #          counter = counter + (int(record[1]))
-    counterC = round((counter / 1000000000000000000),2)
-
-    return counterC
 
 def unbond(timestamp_1h1m, timestamp_1m):
-    ############
-    ## CODES:
-    ## unbond: dW5Cb25k
-    ## last 1 days
-
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1,value2 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'dW5Cb25k' AND `status` LIKE 'success' "
+    
+    query = f"SELECT SUM(val) / 1000000000000000000 FROM (SELECT scResults0value AS val FROM `unBond` WHERE `scResults0data` LIKE 'ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=' AND `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} UNION ALL SELECT scResults1value AS val FROM `unBond` WHERE `scResults1data` LIKE 'ZGVsZWdhdGlvbiBzdGFrZSB1bmJvbmQ=' AND `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m}) total"
     cursor.execute(query)
-    print(query)
 
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
-
-    ## Showing the data
-    for record in records:
-       # counter = counter + (int(record[0]))
-#        if len(record[0]) == 20:
-        counter = counter + (int(record[0]))
- #       elif len(record[1]) == 20:
- #           counter = counter + (int(record[1]))
-
-    counterC = round((counter / 1000000000000000000),2)
-
-    return counterC
+    records = cursor.fetchone()
+    print(records[0])
+    try:
+        return round((records[0]),2)
+    except Exception as e: pass
 
 
 def redelegateRewards(timestamp_1h1m, timestamp_1m):
-    ############
-    ## CODES:
-    ## redelegate:  cmVEZWxlZ2F0ZVJld2FyZHM=
-    ## last 1 days
 
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1,value2 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'cmVEZWxlZ2F0ZVJld2FyZHM=' AND `status` LIKE 'success' "
+    query = f"SELECT SUM(val) / 1000000000000000000 FROM (SELECT scResults0value AS val FROM `redelegateRewards` WHERE `scResults0data` LIKE '0' AND `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} UNION ALL SELECT scResults1value AS val FROM `redelegateRewards` WHERE `scResults1data` LIKE '0' AND `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m}) total"
     cursor.execute(query)
     print(query)
 
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
-
-    ## Showing the data
-    for record in records:
-       # counter = counter + (int(record[0]))
-#        if len(record[0]) == 17:
-        counter = counter + (int(record[0]))
-#        elif len(record[1]) == 17:
-#            counter = counter + (int(record[1]))
-
-        counterC = round((counter / 1000000000000000000),2)
-
-    return counterC
+    records = cursor.fetchone()
+    
+    try:
+        return round((records[0]),2)
+    except Exception as e: pass
 
 
 def claimRewards(timestamp_1h1m, timestamp_1m):
-    ############
-    ## CODES:
-    ## redelegate:  cmVEZWxlZ2F0ZVJld2FyZHM=
-    ## last 1 days
 
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'Y2xhaW1SZXdhcmRz' AND `status` LIKE 'success' "
+#    query = f"SELECT value1 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'Y2xhaW1SZXdhcmRz' AND `status` LIKE 'success' "
+    query = f"SELECT SUM(val) / 1000000000000000000 FROM (SELECT scResults0value AS val FROM `claimRewards` WHERE `scResults0data` NOT LIKE 'QDZmNmI=' AND `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} UNION ALL SELECT scResults1value AS val FROM `claimRewards` WHERE `scResults1data` NOT LIKE 'QDZmNmI=' AND `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m}) total"
     cursor.execute(query)
     print(query)
 
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
+    records = cursor.fetchone()
 
-    ## Showing the data
-    for record in records:
-       # counter = counter + (int(record[0]))
-#        if len(record[0]) == 16:
-        counter = counter + (int(record[0]))
-#       elif len(record[1]) == 16:
-#           counter = counter + (int(record[1]))
-
-        counterC = round((counter / 1000000000000000000),2)
-
-    return counterC
-
-
-def undelegate(timestamp_1h1m, timestamp_1m):
-    ############
-    ## CODES:
-    ## dW5EZWxlZ2F0ZUA%
-    ## dW5EZWxlZ2F0ZUB%
-
-    counter = 0
-    counterC = 0
-
-    query = f"SELECT value1 FROM `transactions` WHERE `timestamp` BETWEEN {timestamp_1h1m} AND {timestamp_1m} AND `scaction` LIKE 'dW5EZWxlZ2F0ZUA%' OR 'dW5EZWxlZ2F0ZUB%' AND `status` LIKE 'success' "
-    cursor.execute(query)
-    print(query)
-    ## fetching all records from the 'cursor' object
-    records = cursor.fetchall()
-
-    ## Showing the data
-    for record in records:
-        counter = counter + (int(record[0]))
-        print((record[0]))
-        print("-",counter,"-")
-
-    counterC = round(counter / 1000000000000000000)
-
-    #print(counterC)
-    return counterC
-
-
+    try:
+        return round((records[0]),2)
+    except Exception as e: pass
