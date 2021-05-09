@@ -21,12 +21,12 @@ def telegram_bot_sendtext(bot_message):
     return response.json()
 
 # Authenticate to Twitter
-auth = tweepy.OAuthHandler(cred.twitter_consumer_key,
-    cred.twitter_consumer_secret)
-auth.set_access_token(cred.twitter_access_token,
-    cred.twitter_acces_key)
-
-api = tweepy.API(auth)
+def twitter(message):
+    auth = tweepy.OAuthHandler(cred.twitter_consumer_key,cred.twitter_consumer_secret)
+    auth.set_access_token(cred.twitter_access_token,cred.twitter_acces_key)
+    
+    api = tweepy.API(auth)
+    api.update_status(message)
 
 
 def transactionCrawler():

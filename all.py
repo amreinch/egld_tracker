@@ -16,6 +16,7 @@ timestamp_1h1m = timestamp - 3660
 timestamp_10d = timestamp - 864060
 today = datetime.datetime.now()
 
+
 balances = 0
 all_transactions = 0
 out_tra = 0
@@ -102,3 +103,24 @@ Rewards: {claimed} claimed: {redelegated} redelegated
 Unbond: {unbonded} initiated: {unbonded10} 10 days locked""")
 
 file1.close()
+
+#functions.twitter(f"""Timeframe: 1h
+#No. $EGLD on Exchanges: {balance:,}
+#No. Transactions: O:{out_tra:,} I:{in_tra:,} T:{all_transactions:,}
+#No. $EGLD Transfered: O:{fin_out_egld:,} I:{fin_in_egld:,} T:{total_egld:,}
+#Trend: {trend}
+#No. $EGLD total staked: {cur_stake[1]:,}
+#{stake_trend}
+#Rewards: {claimed} claimed: {redelegated} redelegated
+#Unbond: {unbonded}""")
+
+
+functions.telegram_bot_sendtext(f"""Timeframe: 1h // Experimental
+No. $EGLD on Exchanges: {balance:,}
+No. Transactions: O:{out_tra:,} I:{in_tra:,} T:{all_transactions:,}
+No. $EGLD Transfered: O:{fin_out_egld:,} I:{fin_in_egld:,} T:{total_egld:,}
+Trend: {trend}
+No. $EGLD total staked: {cur_stake[1]:,}
+{stake_trend}
+Rewards: {claimed} claimed: {redelegated} redelegated
+Unbond: {unbonded}""")
