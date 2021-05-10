@@ -37,7 +37,7 @@ stakewallet = ["erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqplllst77y4l",
 ###Staking Pool Stats
 old_stake = functions.staketotal()
 cur_stake = functions.stakestatspush(stakewallet)
-dif_stake = abs(int(old_stake) - int(cur_stake[1]))
+dif_stake = int(cur_stake[1]) - int(old_stake)
 
 lala = functions.transactionCrawler()
 
@@ -84,6 +84,7 @@ else:
 if dif_stake > 0:
     stake_trend = f"{dif_stake:,} $EGLD joined the Staking Pool."
 elif dif_stake < 0:
+    dif_stake = abs(dif_stake)
     stake_trend = f"{dif_stake:,} $EGLD left the Staking Pool"
 else:
     stake_trend = "Nothing changed in Stacking"
@@ -97,7 +98,7 @@ No. Transactions: O:{out_tra:,} I:{in_tra:,} T:{all_transactions:,}
 No. $EGLD Transfered: O:{fin_out_egld:,} I:{fin_in_egld:,} T:{total_egld:,}
 Trend: {trend}
 Staking Pool:
-No. $EGLD total staked: {cur_stake[1]:,}
+Total staked: {cur_stake[1]:,}
 {stake_trend}
 Rewards: {claimed} claimed: {redelegated} redelegated
 Unbond: {unbonded} initiated: {unbonded10} 10 days locked""")
@@ -120,7 +121,7 @@ No. $EGLD on Exchanges: {balance:,}
 No. Transactions: O:{out_tra:,} I:{in_tra:,} T:{all_transactions:,}
 No. $EGLD Transfered: O:{fin_out_egld:,} I:{fin_in_egld:,} T:{total_egld:,}
 Trend: {trend}
-No. $EGLD total staked: {cur_stake[1]:,}
+Total staked: {cur_stake[1]:,}
 {stake_trend}
-Rewards: {claimed} claimed: {redelegated} redelegated
+Rewards: {claimed} claimed, {redelegated} redelegated
 Unbond: {unbonded}""")
